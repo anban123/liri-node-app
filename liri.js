@@ -1,24 +1,21 @@
 require("dotenv").config();
 
+// Requires
 var axios = require("axios");
+var moment = require("moment");
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
+
+// Spotify API Keys
 var spotify = new Spotify(keys.spotify);
 
+// Global Variables
 var action = process.argv[2];
-
-//need moment.js link
-
-//Liri Commands:
-// concert-this          node liri.js concert-this <artist/band name here>
-// spotify-this-song     node liri.js spotify-this-song '<song name here>'
-// movie-this            node liri.js movie-this '<movie name here>'
-// do-what-it-says       node liri.js do-what-it-says
-
 
 //function for bandsintown
 var input = process.argv.slice(3).join("+");
 
+// Function for Bands in Town
 function bit(bitInput) {
     axios.get("https://rest.bandsintown.com/artists/" + bitInput + "/events?app_id=codingbootcamp")
         .then (function(response) {
@@ -27,11 +24,10 @@ function bit(bitInput) {
             console.log(`Name of Venue: ${response.data[0].venue.name}`);
             console.log(`Venue Location: ${response.data[0].venue.country}`);
             console.log(`Event Date: ${response.data[0].datetime}`)
-        
-});
+    });
 };
 
-//function for spotify
+// Function for Spotify
 function spot() {
     var spotSong = process.argv[3];
     
@@ -48,7 +44,7 @@ function spot() {
       });       
 };
 
-//function for OMDB
+// Function for OMDB
 function o() {
     var oTitle = process.argv.slice(3).join("+");
 
@@ -60,7 +56,6 @@ function o() {
         .then (function(response) {
             //console.log(response.data);
   
-            
             console.log(`Movie Title: ${response.data.Title}`);
             console.log(`IMDB Rating: ${response.data.Ratings[0].Value}`);
             console.log(`Rotten Tomatoes Rating: ${response.data.Ratings[1].Value}`);
@@ -80,7 +75,7 @@ function o() {
 //     var command = 
 // }
 
-
+// Switch Case 
 function Switch(act, inp) {
 switch(act) {
     case "concert-this":
