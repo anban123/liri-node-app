@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 // Requires
+var fs = require("fs");
 var axios = require("axios");
 var moment = require("moment");
 moment().format();
@@ -34,7 +35,7 @@ function spot() {
     var spotSong = process.argv[3];
 
     if (spotSong === undefined) {
-        spotSong = ""
+        spotSong = "The Sign, Ace of Base";
     }
     
     spotify.search({ type: 'track', query: spotSong }, function(err, data) {
@@ -72,14 +73,23 @@ function o() {
         
         });
      }
-// //Function for Do What it Says 
-// function dwis() {
-    //fs.readFile
 
-//     var split (",");
-//     var song = 
-//     var command = 
-// }
+// Function for do-what-it-says 
+function dwis() {
+    fs.readFile("random.txt", "utf8", function(error, data) {                     //call back
+        if (error) {
+          return console.log(error); 
+        }
+        //console.log(data);
+        // Split by commas (to make it more readable)/also makes it into an array ["", "", etc]
+        var dwisArray = data.split(",");                                  
+        var song = dwisArray[1];
+        var command = dwisArray[0];
+        Switch(command, song);                  
+        //console.log("Song: " + song);
+        //console.log("Command: " + command);
+      });
+};
 
 // Switch Case 
 function Switch(act, inp) {
@@ -93,7 +103,7 @@ switch(act) {
     case "do-what-it-says":
         return dwis();
     default:
-        return console.log("You're doing it wrong!!!")
+        return console.log("You're doing it wrong!!!\nGive it a valid command!!!")
 }
 }
 
