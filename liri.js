@@ -31,8 +31,8 @@ function bit(bitInput) {
 };
 
 // Function for Spotify
-function spot() {
-    var spotSong = process.argv[3];
+function spot(spotSong) {
+    //var spotSong = process.argv[3];
 
     if (spotSong === undefined) {
         spotSong = "The Sign, Ace of Base";
