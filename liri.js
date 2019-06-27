@@ -3,16 +3,16 @@ require("dotenv").config();
 // Requires
 var axios = require("axios");
 var moment = require("moment");
+moment().format();
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 
-// Spotify API Keys
+
+// Import Spotify API Keys
 var spotify = new Spotify(keys.spotify);
 
 // Global Variables
 var action = process.argv[2];
-
-//function for bandsintown
 var input = process.argv.slice(3).join("+");
 
 // Function for Bands in Town
@@ -21,15 +21,21 @@ function bit(bitInput) {
         .then (function(response) {
             //console.log("BIT Data: ", response.data[0]);   //ojects or arrays
     
+            var concertTime = response.data[0].datetime
+
             console.log(`Name of Venue: ${response.data[0].venue.name}`);
             console.log(`Venue Location: ${response.data[0].venue.country}`);
-            console.log(`Event Date: ${response.data[0].datetime}`)
+            console.log(`Event Date: ${moment(concertTime).format("MM/DD/YYYY")}`)
     });
 };
 
 // Function for Spotify
 function spot() {
     var spotSong = process.argv[3];
+
+    if (spotSong === undefined) {
+        spotSong = ""
+    }
     
     spotify.search({ type: 'track', query: spotSong }, function(err, data) {
         if (err) {
